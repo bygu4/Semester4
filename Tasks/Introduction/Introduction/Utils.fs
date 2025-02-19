@@ -6,9 +6,6 @@ module Utils =
     let product =
         Seq.reduce ( * )
 
-    let firstNSum n =
-        Seq.take n >> Seq.sum
-
     let repeat n action target =
         { 1 .. n } |> Seq.fold (fun acc _ -> action acc) target
 
@@ -16,7 +13,7 @@ module Utils =
         if n <> 0 then product { 1 .. n } else 1
 
     let fibonacci n =
-        if n > 0 then List.head (repeat (n - 2) (fun acc -> firstNSum 2 acc :: acc) [1; 1])
+        if n > 0 then List.head (repeat (n - 2) (fun acc -> List.sum acc :: [List.head acc]) [1; 1])
         else raise (ArgumentException "n should be a natural number")
 
     let reverse list =
