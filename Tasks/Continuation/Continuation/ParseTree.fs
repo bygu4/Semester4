@@ -1,24 +1,23 @@
-namespace Continuation
+module ParseTree
 
-module ParseTree =
-    type Node =
+type Expression =
+    | Const of int
+    | Operator of Operation * Expression * Expression
+and Operation =
     | Sum
     | Difference
     | Product
     | Ratio
-    | Const of int
 
-    let operation node =
-        match node with
-        | Sum -> ( + )
-        | Difference -> ( - )
-        | Product -> ( * )
-        | Ratio -> ( / )
-        | Const x -> fun _ _ -> x
+let operation op =
+    match op with
+    | Sum -> ( + )
+    | Difference -> ( - )
+    | Product -> ( * )
+    | Ratio -> ( / )
 
-    let rec evaluate tree =
-        match tree with
-        | Tree.Empty -> 0
-        | Tree.Node (x, left, right)
-            ->  let op = operation x
-                op (evaluate left) (evaluate right)
+let rec evaluate expr =
+    match expr with
+    | Const x -> x
+    | Operator (op, left, right) ->
+        operation op (evaluate left) (evaluate right)
