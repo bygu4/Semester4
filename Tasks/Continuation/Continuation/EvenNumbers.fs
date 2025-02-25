@@ -1,10 +1,14 @@
 ﻿module EvenNumbers
 
-let countEvenNumbers1: list<int> -> int =
-    Seq.map (fun x -> (x + 1) % 2) >> Seq.sum
+let ( %% ) x y =
+    let rem = x % y
+    if rem >= 0 then rem else rem + y
 
-let countEvenNumbers2: list<int> -> int =
+let countEvenNumbers_Map: list<int> -> int =
+    Seq.map (fun x -> (x + 1) %% 2) >> Seq.sum
+
+let countEvenNumbers_Filter: list<int> -> int =
     Seq.filter (fun x -> x % 2 = 0) >> Seq.length
 
-let countEvenNumbers3: list<int> -> int =
-    Seq.fold (fun acc x -> acc + (x + 1) % 2) 0
+let countEvenNumbers_Fold: list<int> -> int =
+    Seq.fold (fun acc x -> acc + (x + 1) %% 2) 0
