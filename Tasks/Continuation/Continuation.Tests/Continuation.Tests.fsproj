@@ -6,7 +6,10 @@
     <GenerateProgramFile>false</GenerateProgramFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="PrimesTests.fs" />
     <Compile Include="EvenNumbersTests.fs" />
+    <Compile Include="ParseTreeTests.fs" />
+    <Compile Include="TreeMapTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
   <ItemGroup>

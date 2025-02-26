@@ -8,7 +8,7 @@ open FsCheck.NUnit
 open EvenNumbers
 
 [<Test>]
-let TestEvenNumbers_Map () =
+let testEvenNumbers_Map () =
     countEvenNumbers_Map [] |> should equal 0
     countEvenNumbers_Map [1; 5; -3; 5; 77; 9] |> should equal 0
     countEvenNumbers_Map [4; 6; 8; 8] |> should equal 4
