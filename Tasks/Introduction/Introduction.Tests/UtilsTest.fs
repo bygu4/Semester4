@@ -28,11 +28,12 @@ let TestReverse () =
 
 [<Test>]
 let TestFindElement () =
-    Assert.That(findElement -1 [1; 2; 3] = Error "element was not present in the list")
-    Assert.That(findElement 0 [] = Error "element was not present in the list")
-    Assert.That(findElement 100 [12; 100; -100; 0; -1] = Ok 1)
-    Assert.That(findElement "d" ["a"; "b"; "c"; "d"] = Ok 3)
-    Assert.That(findElement 42.0 [42.0] = Ok 0)
+    Assert.That(findElement -1 [1; 2; 3] = None)
+    Assert.That(findElement 0 [] = None)
+    Assert.That(findElement 100 [12; 100; -100; 0; -1] = Some 1)
+    Assert.That(findElement "d" ["a"; "b"; "c"; "d"] = Some 3)
+    Assert.That(findElement 42.0 [42.0] = Some 0)
+    Assert.That(findElement "oi" ["asda"; "ololo"; "oi"; "s"; "oi"] = Some 2)
 
 [<Test>]
 let TestPowersOfTwo () =
