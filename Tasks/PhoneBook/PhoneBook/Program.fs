@@ -1,4 +1,5 @@
 ﻿open System
+open System.IO
 
 open PhoneBook
 
@@ -42,17 +43,26 @@ let handleOutput output =
         for record in records do
             printfn "%s %s" <|| record
 
-let rec run phoneBook =
-    printf "\n-> "
-    let command = getCommand()
+let handleCommand phoneBook command =
     match command with
     | Some command ->
-        let output, phoneBook = execute command phoneBook
-        handleOutput output
-        run phoneBook
+        try
+            let output, phoneBook = execute phoneBook command
+            handleOutput output
+            phoneBook
+        with
+        | :? IOException as e ->
+            printfn "Error: %s" e.Message
+            phoneBook
     | None ->
         printfn "Unrecognized command"
-        run phoneBook
+        phoneBook
+
+let rec run phoneBook =
+    printf "\n-> "
+    getCommand ()
+    |> handleCommand phoneBook
+    |> run
 
 printInfo ()
 run []

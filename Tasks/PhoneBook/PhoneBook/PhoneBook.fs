@@ -45,7 +45,7 @@ let readFromFile (filePath: string) =
         | _ -> raise (InvalidDataException "Invalid record format")
     )
 
-let execute (command: Command) (phoneBook: PhoneBook) =
+let execute (phoneBook: PhoneBook) (command: Command) =
     match command with
     | Exit -> exit 0
     | AddRecord record -> Message "Record was added", record :: phoneBook
