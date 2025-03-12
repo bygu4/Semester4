@@ -61,6 +61,10 @@ let testGetAll () =
     output |> should equal (All testRecords)
     phoneBook |> should equal testRecords
 
+    let output, phoneBook = execute [] <| GetAll
+    output |> should equal (All [])
+    phoneBook |> should equal ([]: PhoneBook)
+
 [<Test>]
 let testSaveToFile () =
     let phoneBook = testRecords
