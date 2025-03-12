@@ -3,6 +3,7 @@ open System.IO
 
 open PhoneBook
 
+/// Print app info and the command list.
 let printInfo () =
     printf "
 Phone Book
@@ -17,6 +18,7 @@ Commands:
     read from {filePath}\t read records from the given file
 "
 
+/// Read a command from the standard input.
 let getCommand () =
     let input = Console.ReadLine()
     let splitOptions = StringSplitOptions.TrimEntries + StringSplitOptions.RemoveEmptyEntries
@@ -31,6 +33,7 @@ let getCommand () =
     | [| "read"; "from"; filePath |] -> Some (ReadFromFile filePath)
     | _ -> None
 
+/// Print data based on the phone book `output`.
 let handleOutput output =
     match output with
     | Message msg -> printfn "%s" msg
@@ -43,6 +46,7 @@ let handleOutput output =
         for record in records do
             printfn "%s %s" <|| record
 
+/// Execute the given `command` on the given `phoneBook` and manage the result.
 let handleCommand phoneBook command =
     match command with
     | Some command ->
@@ -58,6 +62,7 @@ let handleCommand phoneBook command =
         printfn "Unrecognized command"
         phoneBook
 
+/// Start the work cycle of the app with the given `phoneBook`.
 let rec run phoneBook =
     printf "\n-> "
     getCommand ()
