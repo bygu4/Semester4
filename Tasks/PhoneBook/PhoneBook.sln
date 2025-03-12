@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PhoneBook", "PhoneBook\PhoneBook.fsproj", "{6E0E2956-9C7D-4618-BE49-7FE21E92133B}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "PhoneBook.Tests", "PhoneBook.Tests\PhoneBook.Tests.fsproj", "{960F42B8-2272-45E2-B7BF-13402F3ADF1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{6E0E2956-9C7D-4618-BE49-7FE21E92133B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6E0E2956-9C7D-4618-BE49-7FE21E92133B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6E0E2956-9C7D-4618-BE49-7FE21E92133B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{960F42B8-2272-45E2-B7BF-13402F3ADF1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{960F42B8-2272-45E2-B7BF-13402F3ADF1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{960F42B8-2272-45E2-B7BF-13402F3ADF1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{960F42B8-2272-45E2-B7BF-13402F3ADF1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

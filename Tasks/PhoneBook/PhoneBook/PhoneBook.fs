@@ -63,5 +63,5 @@ let execute (phoneBook: PhoneBook) (command: Command) =
     | GetAll -> All phoneBook, phoneBook
     | SaveToFile filePath ->
         saveToFile filePath phoneBook
-        Message "Phone book was written successfully", phoneBook
+        Message "Phone book was saved successfully", phoneBook
     | ReadFromFile filePath -> Message "Phone book was read successfully", readFromFile filePath
