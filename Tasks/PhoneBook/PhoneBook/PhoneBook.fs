@@ -42,13 +42,13 @@ let readFromFile (filePath: string) =
         let words = line.Split ' '
         match words with
         | [| name; number|] -> Record (name, number)
-        | _ -> raise (InvalidDataException "invalid record format")
+        | _ -> raise (InvalidDataException "Invalid record format")
     )
 
 let execute (command: Command) (phoneBook: PhoneBook) =
     match command with
     | Exit -> exit 0
-    | AddRecord record -> Message "record was added", record :: phoneBook
+    | AddRecord record -> Message "Record was added", record :: phoneBook
     | FindPhoneNumber name ->
         FoundPhoneNumber (List.tryFind (fst >> ( = ) name) phoneBook |> unwrap snd), phoneBook
     | FindName number ->
@@ -56,5 +56,5 @@ let execute (command: Command) (phoneBook: PhoneBook) =
     | GetAll -> All phoneBook, phoneBook
     | SaveToFile filePath ->
         saveToFile filePath phoneBook
-        Message "phone book was written successfully", phoneBook
-    | ReadFromFile filePath -> Message "phone book was read successfully", readFromFile filePath
+        Message "Phone book was written successfully", phoneBook
+    | ReadFromFile filePath -> Message "Phone book was read successfully", readFromFile filePath

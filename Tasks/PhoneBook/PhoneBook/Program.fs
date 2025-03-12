@@ -2,22 +2,24 @@
 
 open PhoneBook
 
-printf "
-    Phone Book
-    ----------
-    Commands:
-        exit: exit the app
-        add {name} {number}: add a record to the book
-        find number {name}: find a phone number by the given name
-        find name {number}: find a name by the given phone number
-        get all: print all of the records in the book
-        save to {filePath}: save records to the given file
-        read from {filePath}: read records from the given file\n
+let printInfo () =
+    printf "
+Phone Book
+----------
+Commands:
+    exit\t\t\t exit the app
+    add {name} {number}\t\t add a record to the book
+    find number {name}\t\t find a phone number by the given name
+    find name {number}\t\t find a name by the given phone number
+    get all\t\t\t print all of the records in the book
+    save to {filePath}\t\t save records to the given file
+    read from {filePath}\t read records from the given file
 "
 
 let getCommand () =
     let input = Console.ReadLine()
-    let words = input.Split ' '
+    let splitOptions = StringSplitOptions.TrimEntries + StringSplitOptions.RemoveEmptyEntries
+    let words = input.Split (' ', splitOptions)
     match words with
     | [| "exit" |] -> Some Exit
     | [| "add"; name; number |] -> Some (AddRecord (name, number))
@@ -30,16 +32,18 @@ let getCommand () =
 
 let handleOutput output =
     match output with
-    | Message msg -> printfn "%s\n" msg
-    | FoundName (Some value) | FoundPhoneNumber (Some value) -> printfn "%s\n" value
-    | FoundName None -> printf "record with such number was not found\n"
-    | FoundPhoneNumber None -> printf "record with such name was not found\n"
+    | Message msg -> printfn "%s" msg
+    | FoundName (Some value) | FoundPhoneNumber (Some value) -> printfn "%s" value
+    | FoundName None -> printfn "Record with such number was not found"
+    | FoundPhoneNumber None -> printfn "Record with such name was not found"
     | All records ->
+        if List.isEmpty records then
+            printfn "Phone book is empty"
         for record in records do
-            printfn "%s %s\n" <|| record
+            printfn "%s %s" <|| record
 
 let rec run phoneBook =
-    printf "-> "
+    printf "\n-> "
     let command = getCommand()
     match command with
     | Some command ->
@@ -47,7 +51,8 @@ let rec run phoneBook =
         handleOutput output
         run phoneBook
     | None ->
-        printf "Unrecognized command\n"
+        printfn "Unrecognized command"
         run phoneBook
 
+printInfo ()
 run []
