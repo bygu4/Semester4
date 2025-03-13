@@ -47,7 +47,7 @@ let readFromFile (filePath: string) =
     |> List.map (fun line ->
         let words = line.Split ' '
         match words with
-        | [| name; number|] -> Record (name, number)
+        | [| name; number |] -> Record (name, number)
         | _ -> raise (InvalidDataException "Invalid record format")
     )
 

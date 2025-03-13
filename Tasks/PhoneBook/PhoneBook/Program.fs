@@ -55,7 +55,7 @@ let handleCommand phoneBook command =
             handleOutput output
             phoneBook
         with
-        | :? IOException as e ->
+        | :? IOException | :? InvalidDataException as e ->
             printfn "Error: %s" e.Message
             phoneBook
     | None ->
