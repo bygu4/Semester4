@@ -35,13 +35,13 @@ let unwrap nth option =
     | Some tuple -> Some (nth tuple)
 
 /// Save the given `phoneBook` to a file at the given `filePath`.
-let saveToFile (filePath: string) (phoneBook: PhoneBook) =
+let saveToFile (filePath: FilePath) (phoneBook: PhoneBook) =
     use writer = new StreamWriter (filePath)
     for name, number in phoneBook do
         writer.WriteLine (name + " " + number)
 
 /// Read a phone book from a file at the given `filePath`.
-let readFromFile (filePath: string) =
+let readFromFile (filePath: FilePath) =
     File.ReadAllLines filePath
     |> Array.toList
     |> List.map (fun line ->
