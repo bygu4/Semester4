@@ -11,22 +11,29 @@ let shouldBecomeInfected (chance : InfectionChance): IsInfected =
     random.NextDouble () < chance
 
 type Network (computers: Computers, links: Links) =
+    let mutable canChange = true
+
+    member _.CanChange = canChange
+
     member _.ToNextIteration () =
         let rec getNewInfected (links: Links) (acc: Computers): Computers =
             match links with
             | (comp1, comp2) :: tail when comp1.IsInfected && not comp2.IsInfected ->
                 let infectionChance = infectionChance comp2.OS
+                if infectionChance > 0 then canChange <- true
                 if shouldBecomeInfected infectionChance then
                     getNewInfected tail (comp2 :: acc)
                 else getNewInfected tail acc
             | (comp1, comp2) :: tail when not comp1.IsInfected && comp2.IsInfected ->
                 let infectionChance = infectionChance comp1.OS
+                if infectionChance > 0 then canChange <- true
                 if shouldBecomeInfected infectionChance then
                     getNewInfected tail (comp1 :: acc)
                 else getNewInfected tail acc
             | _ :: tail -> getNewInfected tail acc
             | [] -> acc
 
+        canChange <- false
         let toInfect = getNewInfected links []
         for comp in toInfect do
             comp.Infect ()
