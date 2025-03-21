@@ -25,26 +25,26 @@ let getCommand () =
     let words = input.Split (' ', splitOptions)
     match words with
     | [| "exit" |] -> Some Exit
-    | [| "add"; name; number |] -> Some (AddRecord (name, number))
-    | [| "find"; "number"; name |] -> Some (FindPhoneNumber name)
-    | [| "find"; "name"; number |] -> Some (FindName number)
+    | [| "add"; name; number |] -> Some (AddRecord (Name name, PhoneNumber number))
+    | [| "find"; "number"; name |] -> Some (FindPhoneNumber (Name name))
+    | [| "find"; "name"; number |] -> Some (FindName (PhoneNumber number))
     | [| "get"; "all" |] -> Some GetAll
-    | [| "save"; "to"; filePath |] -> Some (SaveToFile filePath)
-    | [| "read"; "from"; filePath |] -> Some (ReadFromFile filePath)
+    | [| "save"; "to"; filePath |] -> Some (SaveToFile (FilePath filePath))
+    | [| "read"; "from"; filePath |] -> Some (ReadFromFile (FilePath filePath))
     | _ -> None
 
 /// Print data based on the phone book `output`.
 let handleOutput output =
     match output with
     | Message msg -> printfn "%s" msg
-    | FoundName (Some value) | FoundPhoneNumber (Some value) -> printfn "%s" value
+    | FoundName (Some (Name value)) | FoundPhoneNumber (Some (PhoneNumber value)) -> printfn "%s" value
     | FoundName None -> printfn "Record with such number was not found"
     | FoundPhoneNumber None -> printfn "Record with such name was not found"
     | All records ->
         if List.isEmpty records then
             printfn "Phone book is empty"
-        for record in records do
-            printfn "%s %s" <|| record
+        for Name name, PhoneNumber number in records do
+            printfn "%s %s" <|| (name, number)
 
 /// Execute the given `command` on the given `phoneBook` and manage the result.
 let handleCommand phoneBook command =
@@ -70,4 +70,4 @@ let rec run phoneBook =
     |> run
 
 printInfo ()
-run []
+run (Book [])
