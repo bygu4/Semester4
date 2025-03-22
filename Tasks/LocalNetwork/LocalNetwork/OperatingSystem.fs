@@ -7,7 +7,7 @@ type OperatingSystem(name: string, infectionChance: float) =
 
     member _.Name = name
 
-    member _.CanBecomeInfected = infectionChance > 0
+    member _.CanBecomeInfected = infectionChance > 0.0
 
     member _.ShouldBecomeInfected () = random.NextDouble () < infectionChance
 

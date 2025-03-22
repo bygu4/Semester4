@@ -11,23 +11,20 @@ type Network (computers: Computer seq, links: Link Set) =
 
     member _.ToNextIteration () =
         canChange <- false
-        links
-        |> Seq.map (fun link ->
+        let mutable toInfect = []
+
+        for link in links do
             match link with
             | comp1, comp2 when comp1.IsInfected && not comp2.IsInfected ->
                 if comp2.CanBecomeInfected then canChange <- true
-                if comp2.ShouldBecomeInfected () then Some comp2
-                else None
+                if comp2.ShouldBecomeInfected () then toInfect <- comp2 :: toInfect
             | comp1, comp2 when not comp1.IsInfected && comp2.IsInfected ->
                 if comp1.CanBecomeInfected then canChange <- true
-                if comp1.ShouldBecomeInfected () then Some comp1
-                else None
-            | _ -> None)
-        |> Seq.map (fun comp ->
-            match comp with
-            | Some comp -> comp.Infect ()
-            | _ -> ())
-        |> ignore
+                if comp1.ShouldBecomeInfected () then toInfect <- comp1 :: toInfect
+            | _ -> ()
+
+        for comp in toInfect do
+            comp.Infect ()
 
     member _.Print () =
         for computer in computers do
