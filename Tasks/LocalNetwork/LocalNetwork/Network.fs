@@ -27,6 +27,7 @@ type Network (computers: Computer seq, links: Link Set) =
             match comp with
             | Some comp -> comp.Infect ()
             | _ -> ())
+        |> ignore
 
     member _.Print () =
         for computer in computers do
