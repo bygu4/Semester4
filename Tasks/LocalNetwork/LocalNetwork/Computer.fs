@@ -1,30 +1,12 @@
 module Computer
 
-type OSName = string
-type ComputerName = string
+open System
+open OperatingSystem
 
-type InfectionChance = float
-type IsInfected = bool
-
-type OperatingSystem =
-    | Windows
-    | MacOS
-    | Linux
-
-let osName (os: OperatingSystem): OSName =
-    match os with
-    | Windows -> "Windows"
-    | MacOS -> "MacOS"
-    | Linux -> "Linux"
-
-let infectionChance (os: OperatingSystem): InfectionChance =
-    match os with
-    | Windows -> 0.9
-    | MacOS -> 0.5
-    | Linux -> 0.1
-
-type Computer (name: ComputerName, os: OperatingSystem, infected: IsInfected option) =
+type Computer (name: string, os: OperatingSystem, infected: bool option) =
     let mutable isInfected = Option.defaultValue false infected
+
+    member _.Name = name
 
     member _.OS = os
 
@@ -32,7 +14,18 @@ type Computer (name: ComputerName, os: OperatingSystem, infected: IsInfected opt
 
     member _.Infect () = isInfected <- true
 
-    member _.Print () =
-        printfn "%s (%s): %s" name (osName os) (if isInfected then "infected" else "safe")
+    member _.CanBecomeInfected = os.CanBecomeInfected
 
-type Computers = Computer list
+    member this.ShouldBecomeInfected () = os.ShouldBecomeInfected ()
+
+    member _.Print () =
+        printfn "%s (%s): %s" name os.Name (if isInfected then "infected" else "safe")
+
+    interface IComparable with
+        member this.CompareTo other =
+            match other with
+            | :? Computer as other ->
+                let nameComparison = this.Name.CompareTo other.Name
+                if nameComparison <> 0 then nameComparison
+                else this.OS.CompareTo other.OS
+            | _ -> 1

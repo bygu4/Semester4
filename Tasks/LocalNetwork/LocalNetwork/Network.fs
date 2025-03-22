@@ -1,14 +1,11 @@
 module Network
 
-open System
 open Computer
+
+type Computers = Computer Set
 
 type Link = Computer * Computer
 type Links = Link list
-
-let shouldBecomeInfected (chance : InfectionChance): IsInfected =
-    let random = new Random (DateTime.Now.Ticks % int64 Int32.MaxValue |> int)
-    random.NextDouble () < chance
 
 type Network (computers: Computers, links: Links) =
     let mutable canChange = true
@@ -16,18 +13,16 @@ type Network (computers: Computers, links: Links) =
     member _.CanChange = canChange
 
     member _.ToNextIteration () =
-        let rec getNewInfected (links: Links) (acc: Computers): Computers =
+        let rec getNewInfected (links: Links) (acc: Computer list): Computer list =
             match links with
             | (comp1, comp2) :: tail when comp1.IsInfected && not comp2.IsInfected ->
-                let infectionChance = infectionChance comp2.OS
-                if infectionChance > 0 then canChange <- true
-                if shouldBecomeInfected infectionChance then
+                if comp2.CanBecomeInfected then canChange <- true
+                if comp2.ShouldBecomeInfected () then
                     getNewInfected tail (comp2 :: acc)
                 else getNewInfected tail acc
             | (comp1, comp2) :: tail when not comp1.IsInfected && comp2.IsInfected ->
-                let infectionChance = infectionChance comp1.OS
-                if infectionChance > 0 then canChange <- true
-                if shouldBecomeInfected infectionChance then
+                if comp1.CanBecomeInfected then canChange <- true
+                if comp1.ShouldBecomeInfected () then
                     getNewInfected tail (comp1 :: acc)
                 else getNewInfected tail acc
             | _ :: tail -> getNewInfected tail acc
