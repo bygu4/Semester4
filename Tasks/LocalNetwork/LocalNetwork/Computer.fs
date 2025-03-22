@@ -3,7 +3,7 @@ module Computer
 open System
 open OperatingSystem
 
-type Computer (name: string, os: OperatingSystem, infected: bool option) =
+type Computer (name: string, os: OperatingSystem, ?infected: bool) =
     let mutable isInfected = Option.defaultValue false infected
 
     member _.Name = name
