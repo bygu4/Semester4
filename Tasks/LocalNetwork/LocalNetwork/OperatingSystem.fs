@@ -1,4 +1,4 @@
-module OperatingSystem
+namespace LocalNetwork
 
 open System
 
@@ -7,20 +7,12 @@ type OperatingSystem(name: string, infectionChance: float) =
 
     member _.Name = name
 
-    member _.CanBecomeInfected = infectionChance > 0.0
+    interface IOperatingSystem with
+        member _.Name = name
 
-    member _.IsToBeInfected () = random.NextDouble () < infectionChance
+        member _.CanBecomeInfected = infectionChance > 0.0
 
-    member this.CompareTo (other: OperatingSystem) =
-        this.Name.CompareTo other.Name
+        member _.IsToBeInfected () = random.NextDouble () < infectionChance
 
-let windows () = new OperatingSystem ("Windows", 0.9)
-let macOs () = new OperatingSystem ("MacOS", 0.5)
-let linux () = new OperatingSystem ("Linux", 0.1)
-
-let getOs osName =
-    match osName with
-    | "windows" -> Some (windows ())
-    | "macOs" -> Some (macOs ())
-    | "linux" -> Some (linux ())
-    | _ -> None
+        member this.CompareTo (other: IOperatingSystem) =
+            this.Name.CompareTo other.Name

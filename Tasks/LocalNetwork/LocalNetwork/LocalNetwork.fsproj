@@ -6,7 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="IOperatingSystem.fs" />
     <Compile Include="OperatingSystem.fs" />
+    <Compile Include="OSUtils.fs" />
     <Compile Include="Computer.fs" />
     <Compile Include="Network.fs" />
     <Compile Include="Program.fs" />

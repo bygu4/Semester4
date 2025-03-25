@@ -1,9 +1,8 @@
-module Computer
+namespace LocalNetwork
 
 open System
-open OperatingSystem
 
-type Computer (name: string, os: OperatingSystem, ?infected: bool) =
+type Computer (name: string, os: IOperatingSystem, ?infected: bool) =
     let mutable isInfected = Option.defaultValue false infected
 
     member _.Name = name

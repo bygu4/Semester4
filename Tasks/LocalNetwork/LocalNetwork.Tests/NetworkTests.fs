@@ -1,18 +1,26 @@
-﻿module Network.Tests
+﻿module LocalNetwork.Tests
 
 open NUnit.Framework
 open FsUnit
+open Moq
 
-open OperatingSystem
-open Computer
+open OSUtils
 
 let performNSteps n (network: Network) =
     for _ in { 1 .. n } do
         network.ToNextIteration ()
 
-let safeTestOs () = new OperatingSystem ("safe", 0.0)
+let safeTestOs () =
+    let mock = new Mock<IOperatingSystem>()
+    mock.SetupGet(_.CanBecomeInfected).Returns false |> ignore
+    mock.Setup(_.IsToBeInfected()).Returns false |> ignore
+    mock.Object
 
-let unsafeTestOs () = new OperatingSystem ("unsafe", 1.0)
+let unsafeTestOs () =
+    let mock = new Mock<IOperatingSystem>()
+    mock.SetupGet(_.CanBecomeInfected).Returns true |> ignore
+    mock.Setup(_.IsToBeInfected()).Returns true |> ignore
+    mock.Object
 
 [<Test>]
 let testNetwork_EmptyNetwork_StateShouldNotChange () =
@@ -108,7 +116,7 @@ let testNetworkWithComputersInLine_UnsafeOsAndFirstInfected_ShouldBecomeInfected
     network.CanChange |> should be False
 
 [<Test>]
-let testNetwork_ComplexNetwork_UnsafeOSComputersBecomeInfected () =
+let testNetwork_ComplexNetwork_VirusDoesNotAffectSafeOSComputers () =
     let computers = [
         new Computer ("1", unsafeTestOs (), true);
         new Computer ("2", safeTestOs ());

@@ -1,6 +1,4 @@
-module Network
-
-open Computer
+namespace LocalNetwork
 
 type Link = Computer * Computer
 

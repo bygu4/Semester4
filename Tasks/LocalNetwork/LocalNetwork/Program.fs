@@ -1,8 +1,7 @@
 ﻿open System
 
-open OperatingSystem
-open Computer
-open Network
+open LocalNetwork
+open OSUtils
 
 let splitOptions = StringSplitOptions.TrimEntries + StringSplitOptions.RemoveEmptyEntries
 
