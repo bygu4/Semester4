@@ -5,6 +5,7 @@ open OSUtils
 
 let splitOptions = StringSplitOptions.TrimEntries + StringSplitOptions.RemoveEmptyEntries
 
+/// Print info about the app.
 let printInfo () =
     printf "
 LocalNetwork
@@ -19,11 +20,13 @@ Available operating systems:
     Linux: 0.1 chance of infection
 "
 
+/// Parse the given `input` string representing an integer.
 let parseInt (input: string) =
     match Int32.TryParse input with
     | true, number -> Some number
     | _ -> None
 
+/// Read a number of computers to be simulated from the standard input.
 let rec readNumberOfComputers () =
     printf "\nEnter the number of computers: "
     let input = Console.ReadLine ()
@@ -33,6 +36,7 @@ let rec readNumberOfComputers () =
         printfn "Unrecognized number, try again"
         readNumberOfComputers ()
 
+/// Read info about the computer with the given `number` from the standard input.
 let rec readComputer number =
     printf "%d: " number
     let input = Console.ReadLine ()
@@ -56,12 +60,14 @@ let rec readComputer number =
         printfn "Invalid syntax, try again\n"
         readComputer number
 
-let readComputers number =
+/// Read info about each of `n` computers from the standard input.
+let readComputers n =
     printfn "\nEnter the computers in format: {'linux' | 'macOs' | 'windows'} {?'infected'}"
-    { 1 .. number }
+    { 1 .. n }
     |> Seq.map readComputer
     |> Seq.toArray
 
+/// Read info about a link between two of given `computers` from the standard input.
 let rec readLink (computers: Computer array) =
     let input = Console.ReadLine ()
     let words = input.Split (' ', splitOptions)
@@ -86,6 +92,7 @@ let rec readLink (computers: Computer array) =
         printfn "Invalid syntax, try again\n"
         readLink computers
 
+/// Read info about all links between given `computers` from the standard input.
 let readLinks (computers: Computer array) =
     let rec readLinksInternal (computers: Computer array) (acc: Link Set) =
         let nextLink = readLink computers
@@ -97,6 +104,7 @@ let readLinks (computers: Computer array) =
     printfn "Enter 'done' if you want to stop"
     readLinksInternal computers (set [])
 
+/// Run the simulation of the given `network`.
 let rec run (network: Network) =
     printf "\n"
     network.Print ()

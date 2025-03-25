@@ -1,12 +1,16 @@
 namespace LocalNetwork
 
+/// A link between two computers.
 type Link = Computer * Computer
 
+/// A class representing a local network of computers.
 type Network (computers: Computer seq, links: Link Set) =
     let mutable canChange = true
 
+    /// Whether the state of the network can change.
     member _.CanChange = canChange
 
+    /// Perform a step of the network simulation.
     member _.ToNextIteration () =
         canChange <- false
         let mutable toInfect = []
@@ -24,6 +28,7 @@ type Network (computers: Computer seq, links: Link Set) =
         for comp in toInfect do
             comp.Infect ()
 
+    /// Print info about the network to the console.
     member _.Print () =
         for computer in computers do
             computer.Print ()

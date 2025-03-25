@@ -31,7 +31,7 @@ let testNetwork_EmptyNetwork_StateShouldNotChange () =
     network.CanChange |> should be False
 
 [<Test>]
-let testNetworkWithOneComputer_Uninfected_StateShouldNotChange () =
+let testNetwork_OneUninfectedComputer_StateShouldNotChange () =
     let computer = new Computer ("test computer", linux ())
     let network = new Network ([computer], set [])
 
@@ -42,7 +42,7 @@ let testNetworkWithOneComputer_Uninfected_StateShouldNotChange () =
     computer.Name |> should equal "test computer"
 
 [<Test>]
-let testNetworkWithOneComputer_Infected_StateShouldNotChange () =
+let testNetwork_OneInfectedComputer_StateShouldNotChange () =
     let computer = new Computer ("test computer", windows (), true)
     let network = new Network ([computer], set [])
 
@@ -53,7 +53,7 @@ let testNetworkWithOneComputer_Infected_StateShouldNotChange () =
     computer.Name |> should equal "test computer"
 
 [<Test>]
-let testNetworkWithTwoComputers_BothUninfected_StateShouldNotChange () =
+let testNetwork_TwoUninfectedComputers_StateShouldNotChange () =
     let computer1 = new Computer ("1", safeTestOs ())
     let computer2 = new Computer ("2", unsafeTestOs ())
     let network = new Network ([computer1; computer2], set [computer1, computer2])
@@ -66,7 +66,7 @@ let testNetworkWithTwoComputers_BothUninfected_StateShouldNotChange () =
     computer2.Name |> should equal "2"
 
 [<Test>]
-let testNetworkWithTwoComputers_InfectedAndSafeOS_ShouldNotBecomeInfected () =
+let testNetwork_ComputerWithSafeOSAndTheOtherIsInfected_ShouldNotBecomeInfected () =
     let computer1 = new Computer ("1", safeTestOs ())
     let computer2 = new Computer ("2", unsafeTestOs (), true)
     let network = new Network ([computer1; computer2], set [computer1, computer2])
@@ -78,7 +78,7 @@ let testNetworkWithTwoComputers_InfectedAndSafeOS_ShouldNotBecomeInfected () =
     computer2.IsInfected |> should be True
 
 [<Test>]
-let testNetworkWithTwoComputers_InfectedAndUnsafeOS_ShouldBecomeInfected () =
+let testNetwork_ComputerWithUnsafeOSAndTheOtherIsInfected_ShouldBecomeInfected () =
     let computer1 = new Computer ("1", safeTestOs (), true)
     let computer2 = new Computer ("2", unsafeTestOs ())
     let network = new Network ([computer1; computer2], set [computer1, computer2])
@@ -88,7 +88,7 @@ let testNetworkWithTwoComputers_InfectedAndUnsafeOS_ShouldBecomeInfected () =
     (computer1.IsInfected && computer2.IsInfected) |> should be True
 
 [<Test>]
-let testNetworkWithComputersInLine_UnsafeOsAndFirstInfected_ShouldBecomeInfectedOneByOne () =
+let testNetwork_ComputersInLineAndTheFirstOneIsInfected_ShouldBecomeInfectedOneByOne () =
     let n = 12
     let computers =
         { 1 .. n }
