@@ -17,10 +17,10 @@ type Network (computers: Computer seq, links: Link Set) =
             match link with
             | comp1, comp2 when comp1.IsInfected && not comp2.IsInfected ->
                 if comp2.CanBecomeInfected then canChange <- true
-                if comp2.ShouldBecomeInfected () then toInfect <- comp2 :: toInfect
+                if comp2.IsToBeInfected () then toInfect <- comp2 :: toInfect
             | comp1, comp2 when not comp1.IsInfected && comp2.IsInfected ->
                 if comp1.CanBecomeInfected then canChange <- true
-                if comp1.ShouldBecomeInfected () then toInfect <- comp1 :: toInfect
+                if comp1.IsToBeInfected () then toInfect <- comp1 :: toInfect
             | _ -> ()
 
         for comp in toInfect do

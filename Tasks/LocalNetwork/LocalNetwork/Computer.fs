@@ -16,7 +16,7 @@ type Computer (name: string, os: OperatingSystem, ?infected: bool) =
 
     member _.CanBecomeInfected = os.CanBecomeInfected
 
-    member this.ShouldBecomeInfected () = os.ShouldBecomeInfected ()
+    member _.IsToBeInfected () = os.IsToBeInfected ()
 
     member _.Print () =
         printfn "%s (%s): %s" name os.Name (if isInfected then "infected" else "safe")
