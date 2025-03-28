@@ -8,4 +8,4 @@ type RoundingWorkflowBuilder (precision: int) =
     member _.Bind (value: float, cont: float -> float) =
         Math.Round (value, precision) |> cont
 
-    member _.Return value: float = value
+    member _.Return (value: float) = value
