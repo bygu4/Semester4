@@ -8,7 +8,7 @@ type Tree<'a> =
 /// Get of the elements of the given  `tree` for which the `condition` is true.
 let filter (tree: Tree<'a>) (condition: 'a -> bool) =
 
-    /// Traverse the `tree` in CPS style.
+    /// Traverse the `tree` in CPS.
     let rec filterInternal (tree: Tree<'a>) (condition: 'a -> bool) (cont: unit -> 'a list) =
         match tree with
         | None -> cont ()
