@@ -5,7 +5,7 @@ type Tree<'a> =
     | None
     | Tip of 'a * Tree<'a> * Tree<'a>
 
-/// Get of the elements of the given  `tree` for which the `condition` is true.
+/// Get all of the elements of the given `tree` for which the `condition` is true.
 let filter (tree: Tree<'a>) (condition: 'a -> bool) =
 
     /// Traverse the `tree` in CPS.
