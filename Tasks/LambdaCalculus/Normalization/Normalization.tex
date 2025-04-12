@@ -1,0 +1,19 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+
+\usepackage{parskip}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+
+\center{Reduce lambda term to the normal form:}
+\[ ((\lambda a.(\lambda b.b \ b) \ (\lambda b.b \ b)) \ b) \ ((\lambda c.(c \ b)) \ (\lambda a.a)) \rightarrow_\beta \]
+\[ \rightarrow_\beta ((\lambda b.b \ b) \ (\lambda b.b \ b)) \ ((\lambda c.(c \ b)) \ (\lambda a.a)) \rightarrow_\beta \]
+\[ \rightarrow_\beta ((\lambda b.b \ b) \ (\lambda b.b \ b)) \ ((\lambda a.a) \ b) \rightarrow_\beta \]
+\[ \rightarrow_\beta ((\lambda b.b \ b) \ (\lambda b.b \ b)) \ b \equiv \]
+\[ \equiv \Omega \ b \]
+
+\end{document}
