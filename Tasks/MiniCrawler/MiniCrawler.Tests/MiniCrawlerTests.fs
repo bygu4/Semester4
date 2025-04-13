@@ -21,5 +21,6 @@ let testGetAllLinksInfo_ManyLinks_GetCorrectNumberOfLinks () =
         getAllLinksInfo "https://en.wikipedia.org/wiki/F_Sharp_(programming_language)"
         |> Async.RunSynchronously
         |> Seq.toList
-    
+
     links.Length |> should equal 50
+    links |> Seq.map snd |> Seq.exists (( >= ) 0) |> should be False
