@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Crawler.fs" />
+    <Compile Include="MiniCrawler.fs" />
   </ItemGroup>
 
 </Project>
