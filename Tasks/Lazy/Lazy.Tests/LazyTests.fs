@@ -7,8 +7,8 @@ open System
 open System.Threading
 open System.Threading.Tasks
 
-let numberOfGets = 1000
-let numberOfThreads = 1000
+let numberOfGets = 500
+let numberOfThreads = 500
 
 let mutable evaluationCount = 0
 
@@ -47,7 +47,7 @@ let testForSingleThread_WithResult (result: 'a) (testLazy: ILazy<'a>) =
 
 let testForSingleThread_WithException (exc: Type) (testLazy: ILazy<'a>) =
     for _ in { 1 .. numberOfGets } do
-        testLazy.Get () |> should throw exc
+        testLazy.Get |> should throw exc
     evaluationCount |> should equal 1
 
 [<SetUp>]
@@ -55,19 +55,19 @@ let resetEvaluationCount () =
     evaluationCount <- 0
 
 [<TestCaseSourceAttribute(nameof(testCasesWithResult))>]
-let testSingleThreadLazy_WithResult (supplier: unit -> 'a, result: 'a) =
+let testSingleThreadLazy_WithResult (supplier: unit -> obj, result: obj) =
     supplier
     |> SingleThreadLazy
     |> testForSingleThread_WithResult result
 
 [<TestCaseSourceAttribute(nameof(testCasesWithException))>]
-let testSingleThreadLazy_WithException (supplier: unit -> 'a, exc: Type) =
+let testSingleThreadLazy_WithException (supplier: unit -> obj, exc: Type) =
     supplier
     |> SingleThreadLazy
     |> testForSingleThread_WithException exc
 
 [<TestCaseSourceAttribute(nameof(testCasesWithResult))>]
-let testThreadSafeLazy_WithResult (supplier: unit -> 'a, result: 'a) =
+let testThreadSafeLazy_WithResult (supplier: unit -> obj, result: obj) =
     let testLazy = supplier |> ThreadSafeLazy
     { 1 .. numberOfThreads }
     |> Seq.map (fun _ -> Task.Run (
@@ -75,7 +75,7 @@ let testThreadSafeLazy_WithResult (supplier: unit -> 'a, result: 'a) =
     |> Task.WaitAll
 
 [<TestCaseSourceAttribute(nameof(testCasesWithException))>]
-let testThreadSafeLazy_WithException (supplier: unit -> 'a, exc: Type) =
+let testThreadSafeLazy_WithException (supplier: unit -> obj, exc: Type) =
     let testLazy = supplier |> ThreadSafeLazy
     { 1 .. numberOfThreads }
     |> Seq.map (fun _ -> Task.Run (

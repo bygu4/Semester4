@@ -8,12 +8,12 @@ type SingleThreadLazy<'a when 'a: equality>(supplier: unit -> 'a) =
     let mutable thrownException: Exception option = None
 
     let tryEvaluate () =
-        if supplier.IsNone then ()
-        try
-            result <- Some (supplier.Value ())
-        with
-            | e -> thrownException <- Some e
-        supplier <- None
+        if supplier.IsSome then
+            try
+                result <- Some (supplier.Value ())
+            with
+                | e -> thrownException <- Some e
+            supplier <- None
 
     let getResult () =
         tryEvaluate ()

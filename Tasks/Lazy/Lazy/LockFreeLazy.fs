@@ -10,16 +10,16 @@ type LockFreeLazy<'a when 'a: equality>(supplier: unit -> 'a) =
 
     let tryEvaluate () =
         let currentSupplier = supplier
-        if currentSupplier.IsNone then ()
-        try
-            let localResult = Some (currentSupplier.Value ())
-            Interlocked.CompareExchange (&result, (localResult, None), (None, None))
-            |> ignore
-        with
-            | e ->
-                Interlocked.CompareExchange (&result, (None, Some e), (None, None))
+        if currentSupplier.IsSome then
+            try
+                let localResult = Some (currentSupplier.Value ())
+                Interlocked.CompareExchange (&result, (localResult, None), (None, None))
                 |> ignore
-        supplier <- None
+            with
+                | e ->
+                    Interlocked.CompareExchange (&result, (None, Some e), (None, None))
+                    |> ignore
+            supplier <- None
 
     let getResult () =
         tryEvaluate ()

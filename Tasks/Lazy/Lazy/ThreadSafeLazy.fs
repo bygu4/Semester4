@@ -11,12 +11,12 @@ type ThreadSafeLazy<'a when 'a: equality>(supplier: unit -> 'a) =
 
     let tryEvaluate () =
         lock lockObject (fun () ->
-            if supplier.IsNone then ()
-            try
-                result <- Some (supplier.Value ())
-            with
-                | e -> thrownException <- Some e
-            supplier <- None
+            if supplier.IsSome then
+                try
+                    result <- Some (supplier.Value ())
+                with
+                    | e -> thrownException <- Some e
+                supplier <- None
         )
 
     let getResult () =
