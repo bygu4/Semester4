@@ -6,18 +6,19 @@ open System.Threading
 type LockFreeLazy<'a when 'a: equality>(supplier: unit -> 'a) =
     [<VolatileField>]
     let mutable supplier = Some supplier
-    let mutable result: 'a option * Exception option = None, None
+    let initialResult: 'a option * exn option = None, None
+    let mutable result = initialResult
 
     let tryEvaluate () =
         let currentSupplier = supplier
         if currentSupplier.IsSome then
             try
                 let localResult = Some (currentSupplier.Value ())
-                Interlocked.CompareExchange (&result, (localResult, None), (None, None))
+                Interlocked.CompareExchange (&result, (localResult, None), initialResult)
                 |> ignore
             with
                 | e ->
-                    Interlocked.CompareExchange (&result, (None, Some e), (None, None))
+                    Interlocked.CompareExchange (&result, (None, Some e), initialResult)
                     |> ignore
             supplier <- None
 
