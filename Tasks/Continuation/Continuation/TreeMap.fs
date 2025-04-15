@@ -5,7 +5,14 @@ type Tree<'a> =
     | Node of 'a * Tree<'a> * Tree<'a>
 
 let rec map mapping tree =
-    match tree with
-    | Empty -> Empty
-    | Node (value, left, right) ->
-        Node (mapping value, map mapping left, map mapping right)
+    let rec mapInternal tree mapping cont =
+        match tree with
+        | Empty -> cont Empty
+        | Node (value, left, right) ->
+            mapInternal left mapping (fun mappedLeft ->
+                mapInternal right mapping (fun mappedRight ->
+                    Node (mapping value, mappedLeft, mappedRight) |> cont
+                )
+            )
+
+    mapInternal tree mapping id

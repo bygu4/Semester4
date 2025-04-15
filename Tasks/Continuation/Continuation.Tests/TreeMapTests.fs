@@ -20,7 +20,22 @@ let testTreeMap () =
     let squaresTree = 
         Node (1, Empty, Node (4, Empty, Node (9, Empty, Node (16, Empty, Empty))))
 
-    map (fun x -> x * 5) Empty |> should equal Tree<int>.Empty
+    map (( * ) 5) Empty |> should equal Tree<int>.Empty
+    map (( = ) 0) (Node (0, Empty, Empty)) |> should equal (Node (true, Empty, Empty))
     map sqrt (Node (9.0, Empty, Empty)) |> should equal (Node (3.0, Empty, Empty))
     map String.length strTree |> should equal lenTree
     map (fun x -> x * x) intTree |> should equal squaresTree
+
+[<Test>]
+let testMapWithLargeTree () =
+    let treeDepth = 10000
+    let sourceTree =
+        { 1 .. treeDepth }
+        |> Seq.fold (fun node _ -> Node (1, node, Empty)) Empty
+    let resultTree =
+        { 1 .. treeDepth }
+        |> Seq.fold (fun node _ -> Node (8, node, Empty)) Empty
+
+    sourceTree
+    |> map (( + ) 7)
+    |> should equal resultTree

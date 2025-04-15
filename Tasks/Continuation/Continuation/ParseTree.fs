@@ -17,7 +17,14 @@ let operation op =
     | Ratio -> ( / )
 
 let rec evaluate expr =
-    match expr with
-    | Const x -> x
-    | Operator (op, left, right) ->
-        operation op (evaluate left) (evaluate right)
+    let rec evaluateInternal expr cont = 
+        match expr with
+        | Const x -> cont x
+        | Operator (op, left, right) ->
+            evaluateInternal left (fun leftValue ->
+                evaluateInternal right (fun rightValue ->
+                    operation op leftValue rightValue |> cont
+                )
+            )
+
+    evaluateInternal expr id
