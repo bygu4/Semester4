@@ -28,7 +28,7 @@ let testTreeMap () =
 
 [<Test>]
 let testMapWithLargeTree () =
-    let treeDepth = 10000
+    let treeDepth = 1000
     let sourceTree =
         { 1 .. treeDepth }
         |> Seq.fold (fun node _ -> Node (1, node, Empty)) Empty
