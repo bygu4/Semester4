@@ -4,15 +4,16 @@ type Tree<'a> =
     | Empty
     | Node of 'a * Tree<'a> * Tree<'a>
 
-let rec map mapping tree =
-    let rec mapInternal tree mapping cont =
+let map mapping tree =
+
+    let rec map mapping tree cont =
         match tree with
         | Empty -> cont Empty
         | Node (value, left, right) ->
-            mapInternal left mapping (fun mappedLeft ->
-                mapInternal right mapping (fun mappedRight ->
+            map mapping left (fun mappedLeft ->
+                map mapping right (fun mappedRight ->
                     Node (mapping value, mappedLeft, mappedRight) |> cont
                 )
             )
 
-    mapInternal tree mapping id
+    in map mapping tree id
