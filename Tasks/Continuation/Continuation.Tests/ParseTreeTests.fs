@@ -33,7 +33,7 @@ let testEvaluate () =
 
 [<Test>]
 let testEvaluateWithLargeExpression () =
-    let treeDepth = 1000
+    let treeDepth = 1000000
     { 1 .. treeDepth }
     |> Seq.fold (fun node _ -> Operator (Sum, node, Const 1)) (Const 1)
     |> evaluate

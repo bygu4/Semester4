@@ -16,16 +16,15 @@ let operation op =
     | Product -> ( * )
     | Ratio -> ( / )
 
-let evaluate expr =
-
-    let rec evaluate expr cont = 
-        match expr with
-        | Const x -> cont x
-        | Operator (op, left, right) ->
-            evaluate left (fun leftValue ->
-                evaluate right (fun rightValue ->
-                    operation op leftValue rightValue |> cont
-                )
+[<TailCall>]
+let rec evaluateCPS expr cont = 
+    match expr with
+    | Const x -> cont x
+    | Operator (op, left, right) ->
+        evaluateCPS left (fun leftValue ->
+            evaluateCPS right (fun rightValue ->
+                operation op leftValue rightValue |> cont
             )
+        )
 
-    in evaluate expr id
+let evaluate expr = evaluateCPS expr id

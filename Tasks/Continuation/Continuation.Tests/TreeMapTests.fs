@@ -28,7 +28,7 @@ let testTreeMap () =
 
 [<Test>]
 let testMapWithLargeTree () =
-    let treeDepth = 1000
+    let treeDepth = 1000000
     let sourceTree =
         { 1 .. treeDepth }
         |> Seq.fold (fun node _ -> Node (1, node, Empty)) Empty
@@ -38,4 +38,5 @@ let testMapWithLargeTree () =
 
     sourceTree
     |> map (( + ) 7)
-    |> should equal resultTree
+    |> areEqual resultTree
+    |> should be True
