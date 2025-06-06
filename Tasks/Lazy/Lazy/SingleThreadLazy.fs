@@ -11,12 +11,14 @@ type SingleThreadLazy<'a when 'a: equality>(supplier: unit -> 'a) =
 
     /// Run supplier if it was not already run, set result and clear the supplier.
     let tryEvaluate () =
-        if supplier.IsSome then
+        match supplier with
+        | Some func ->
             try
-                result <- Some (supplier.Value ())
+                result <- Some (func ())
             with
                 | e -> thrownException <- Some e
             supplier <- None
+        | None -> ()
 
     /// Get the result evaluated lazily.
     let getResult () =

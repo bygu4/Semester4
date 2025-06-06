@@ -14,9 +14,10 @@ type LockFreeLazy<'a when 'a: equality>(supplier: unit -> 'a) =
     /// Run supplier and set the result if it was not already set, then clear the supplier.
     let tryEvaluate () =
         let currentSupplier = supplier
-        if currentSupplier.IsSome then
+        match currentSupplier with
+        | Some func ->
             try
-                let localResult = Some (currentSupplier.Value ())
+                let localResult = Some (func ())
                 Interlocked.CompareExchange (&result, (localResult, None), initialResult)
                 |> ignore
             with
@@ -24,6 +25,7 @@ type LockFreeLazy<'a when 'a: equality>(supplier: unit -> 'a) =
                     Interlocked.CompareExchange (&result, (None, Some e), initialResult)
                     |> ignore
             supplier <- None
+        | None -> ()
 
     /// Get the result evaluated lazily.
     let getResult () =

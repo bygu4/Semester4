@@ -5,7 +5,7 @@ open System
 /// Class representing thread safe lazy evaluation.
 /// Creates an instance with the given `supplier` to evaluate.
 type ThreadSafeLazy<'a when 'a: equality>(supplier: unit -> 'a) =
-    [<VolatileFieldAttribute>]
+    [<VolatileField>]
     let mutable supplier = Some supplier
     let mutable result: 'a option = None
     let mutable thrownException: Exception option = None
@@ -14,12 +14,14 @@ type ThreadSafeLazy<'a when 'a: equality>(supplier: unit -> 'a) =
     /// Run supplier if it was not already run, set result and clear the supplier.
     let tryEvaluate () =
         lock lockObject (fun () ->
-            if supplier.IsSome then
+            match supplier with
+            | Some func ->
                 try
-                    result <- Some (supplier.Value ())
+                    result <- Some (func ())
                 with
                     | e -> thrownException <- Some e
                 supplier <- None
+            | None -> ()
         )
 
     /// Get the result evaluated lazily.
