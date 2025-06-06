@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="BinaryTree.fs" />
     <Compile Include="InfiniteSequence.fs" />
+    <Compile Include="Queue.fs" />
   </ItemGroup>
 
 </Project>
