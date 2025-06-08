@@ -1,13 +1,14 @@
 module ParseTree
 
-type Expression =
-    | Const of int
-    | Operator of Operation * Expression * Expression
-and Operation =
+type Operation =
     | Sum
     | Difference
     | Product
     | Ratio
+
+type Expression =
+    | Const of int
+    | Operator of Operation * Expression * Expression
 
 let operation op =
     match op with
