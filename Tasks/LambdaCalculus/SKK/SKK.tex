@@ -1,0 +1,23 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+
+\usepackage{parskip}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+\begin{document}
+
+\[ S \ K \ K = I \ \text{?} \]
+\[ S \ K \ K \equiv \]
+\[ \equiv (\lambda x \ y \ z.x \ z \ (y \ z)) \ (\lambda a \ b.a) \ (\lambda a \ b.a) \equiv \]
+\[ \equiv ((\lambda x.\lambda y.\lambda z.x \ z \ (y \ z)) \ (\lambda a \ b.a)) \ (\lambda a \ b.a) \rightarrow_\beta \]
+\[ \rightarrow_\beta (\lambda y.\lambda z.(\lambda a \ b.a) \ z \ (y \ z)) \ (\lambda a \ b.a) \rightarrow_\beta \]
+\[ \rightarrow_\beta \lambda z.(\lambda a \ b.a) \ z \ ((\lambda a \ b.a) \ z) \equiv \]
+\[ \equiv \lambda z.((\lambda a.\lambda b.a) \ z) \ ((\lambda a \ b.a) \ z) \rightarrow_\beta \]
+\[ \rightarrow_\beta \lambda z.(\lambda b.z) \ ((\lambda a \ b.a) \ z) \rightarrow_\beta \]
+\[ \rightarrow_\beta \lambda z.z \equiv \]
+\[ \equiv I \]
+
+\end{document}
