@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="IOperatingSystem.fs" />
+    <Compile Include="OperatingSystem.fs" />
+    <Compile Include="OSUtils.fs" />
+    <Compile Include="Computer.fs" />
+    <Compile Include="Network.fs" />
+    <Compile Include="Program.fs" />
+  </ItemGroup>
+
+</Project>
